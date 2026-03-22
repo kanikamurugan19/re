@@ -1,0 +1,63 @@
+APP.JSX
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import Post from "./Post";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/post/:id" element={<Post />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+HOME.JSX
+import { Link } from "react-router-dom";
+
+export default function Home() {
+  const posts = [
+    { id: 1, title: "React Introduction", content: "React is a JS library..." },
+    { id: 2, title: "Understanding Components", content: "Components are reusable..." }
+  ];
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <h1>Mini Blog</h1>
+
+      {posts.map((p) => (
+        <div key={p.id}>
+          <h2>{p.title}</h2>
+          <p>{p.content}</p>
+          <Link to={`/post/${p.id}`}>Read More</Link>
+        </div>
+      ))}
+    </div>
+
+    POST.JSX
+    import { useParams, Link } from "react-router-dom";
+
+export default function Post() {
+  const { id } = useParams();
+
+  const posts = [
+    { id: 1, title: "React Introduction", content: "Full React content..." },
+    { id: 2, title: "Understanding Components", content: "Full Components content..." }
+  ];
+
+  const post = posts.find((p) => p.id === Number(id));
+
+  if (!post) return <h2>Post Not Found</h2>;
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <Link to="/">Back</Link>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </div>
+  );
+}
+  );
+}
